@@ -1,4 +1,3 @@
-import modules.functions
 import PySimpleGUI as sg
 from modules import functions
 
