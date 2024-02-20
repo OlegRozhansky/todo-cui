@@ -27,11 +27,15 @@ while True:
         case 'Exit' | None:
             break
         case 'Add':
-            todos = functions.get_todos()
-            todos.append(values['todo'] + '\n')
-            functions.write_todos(p_todos=todos)
-            # window['todos'].update(todos)
-            list_box.update(todos)
+            new_item = values['todo']
+            if len(new_item) > 0:
+                todos = functions.get_todos()
+                todos.append(new_item if '\n' in new_item else new_item + '\n')
+                functions.write_todos(p_todos=todos)
+                # window['todos'].update(todos)
+                list_box.update(todos)
+            else:
+                sg.popup("You cannot add an empty todo!", font=('Helvetica', 20))
         case 'todos':
             window['todo'].update(values['todos'][0])
         case 'Edit':
