@@ -1,6 +1,11 @@
 import PySimpleGUI as sg
 from modules import functions
 import time
+import os
+
+if not os.path.exists(functions.FILE_PATH):
+    with open(functions.FILE_PATH, "w"):
+        pass
 
 sg.theme("Black")
 

@@ -13,3 +13,5 @@ def write_todos(p_todos, filepath=FILE_PATH):
 
 if __name__ == '__main__':
     print("hello from functions")
+else:
+    print(f"hello from {__name__}")
