@@ -1,8 +1,12 @@
 import PySimpleGUI as sg
 from modules import functions
+import time
 
+sg.theme("Black")
+
+clock = sg.Text('', key='clock')
 label = sg.Text('Type in a to-do')
-input_box = sg.InputText(tooltip="Enter todo", key="todo")
+input_box = sg.InputText(tooltip="Enter todo", key="todo", size=46)
 add_button = sg.Button("Add")
 exit_button = sg.Button("Exit")
 list_box = sg.Listbox(values=functions.get_todos(), key="todos",
@@ -12,11 +16,12 @@ complete_button = sg.Button("Complete")
 
 # Create the Window
 window = sg.Window('To Do App',
-                   layout=[[label], [input_box, add_button], [list_box, edit_button, complete_button], [exit_button]],
+                   layout=[[clock], [label], [input_box, add_button], [list_box, edit_button, complete_button], [exit_button]],
                    font=('Helvetica', 20))
 # Event Loop to process "events" and get the "values" of the inputs
 while True:
-    event, values = window.read()
+    event, values = window.read(timeout=200)
+    window['clock'].update(time.strftime("%Y-%B-%d %H:%M:%S"))
     print(event, values)
     match event:
         case 'Exit' | None:
@@ -39,6 +44,8 @@ while True:
                 functions.write_todos(p_todos=todos)
                 #window['todos'].update(todos)
                 list_box.update(todos)
+            else:
+                sg.popup("This is a wrong state", font=('Helvetica', 20))
         case 'Complete':
             if len(values['todos']) != 0:
                 todos = functions.get_todos()
@@ -46,5 +53,7 @@ while True:
                 functions.write_todos(p_todos=todos)
                 list_box.update(todos)
                 window['todo'].update('')
+            else:
+                sg.popup("You should select an item!", font=('Helvetica', 20))
 
 window.close()
