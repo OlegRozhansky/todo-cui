@@ -11,12 +11,21 @@ def add_todo():
         functions.write_todos(todos)
 
 
+def remove_item():
+    for item in todos:
+        if st.session_state[item]:
+            todos.remove(item)
+            functions.write_todos(todos)
+            st.session_state.pop(item)
+            break
+
+
 st.title("My todo app")
 st.subheader("This is my todo app.")
 st.write("This app is to increase your productivity")
 
 for todo in todos:
-    st.checkbox(todo)
+    st.checkbox(label=todo, on_change=remove_item, key=todo)
 
 st.text_input(label="todo", on_change=add_todo, key='new_todo')
 
